@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -22,6 +23,11 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingCartItemComponent } from './shopping-cart-item/shopping-cart-item.component';
 import { CartService } from './services/cart.service';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { AuthenticationService } from './services/authentication.service';
+import { UserService } from './services/user.service';
+import { AuthGuard } from './helpers/auth.guard';
 
 @NgModule({
   declarations: [
@@ -34,7 +40,9 @@ import { CartService } from './services/cart.service';
     ShoppingComponent,
     ShoppingCartComponent,
     ShoppingListComponent,
-    ShoppingCartItemComponent
+    ShoppingCartItemComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -43,13 +51,17 @@ import { CartService } from './services/cart.service';
     FormsModule,
     HttpClientModule,
     LoadingModule,
+    ReactiveFormsModule,
     NgbModule.forRoot(),
     ToasterModule.forRoot()
   ],
   providers: [
     FaceApiService,
     InputBoxService,
-    CartService
+    CartService,
+    AuthenticationService,
+    UserService,
+    AuthGuard
   ],
   bootstrap: [AppComponent],
   entryComponents: [
