@@ -1,9 +1,12 @@
-.add-cart{
-    font-size: 20px;
+.add-cart {
+    font-size: 15px;
     cursor: pointer;
-    padding: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
     border: 1px solid gray;
-    background: green;
+    background: #04AA6D;
     color: white;
-    border-radius: 2px;
+    border-radius: 5px;
 }

@@ -1,62 +1,57 @@
-<!-- <div class="panel panel-default">
-  <div class="panel-body">
-     <ul>
-       <li *ngFor="let item of products"  class="cart-item">
-         <span class="cart-item__name">{{item.name}}</span>
-         <span class="cart-item__price">{{item.price}}</span>
-       </li>
-     </ul>
-    <div class="cart__total">Total: </div>
-  </div>
-</div> -->
-
 <div class="card" style="margin-top: 15px;">
-  <div class="card-body">
-    <div class="row">
-      <div class="col">
-        <h5 class="card-title">Shopping Cart</h5>
-      </div>
-      <div class="col">
-        <button class="btn btn-success" [disabled]="!(products && products.length)" style="float: right;" (click)="checkout()">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <h5 class="card-title">Shopping Cart</h5>
+            </div>
+            <div class="col">
+                <button class="btn" [disabled]="!(products && products.length)" style="float: right; background-color: mediumvioletred;color: white;" (click)="checkout()">
           <i class="bi bi-cart-check" (click)="checkout()" title="checkout cart"
             style="color: yellow;font-size: 16px;cursor: pointer;"></i>
           Checkout cart
         </button>
-      </div>
-    </div>
-    <div class="card-text" style="margin-top: 10px;">
-      <ul style="padding: 5px;" [ngStyle]="{'border':products && products.length ?'2px solid gray':'none' }">
-        <li *ngFor="let item of products" class="cart-item">
-          <div class="row">
-            <div class="col">
-              <span>{{item.name}}</span>
             </div>
-            <div class="col">
-              <span>{{item.price}}</span>
+        </div>
+        <div class="card-text" style="margin-top: 10px;">
+            <ul style="padding: 5px;" [ngStyle]="{'border':products && products.length ?'2px solid gray':'none' }">
+                <li *ngFor="let item of products" class="cart-item">
+                    <div class="row">
+                        <div class="col">
+                            <span style="font-style: italic;">{{item.name}}</span>
+                        </div>
+                        <div class="col">
+                            <span>{{item.amount}}</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div *ngIf="products && products.length" class="cart__total">
+            <div class="row">
+                <div class="col" style="text-align: left;">
+                    <span>Total: </span>
+                </div>
+                <div class="col" style="text-align: left;">
+                    <span>{{totalAmount}}</span>
+                </div>
             </div>
-          </div>
-        </li>
-      </ul>
+        </div>
     </div>
-    <div *ngIf="products && products.length" class="cart__total">
-      Total: <span>{{totalAmount}}</span>
-    </div>
-  </div>
 </div>
 
-<div class="card" *ngIf="isPaymentShow" style="margin-top: 15px;" >
-  <div class="card-body" style="padding-bottom: 0px;">
-    <h4 class="card-title">Payment Method</h4>
-  </div>
-  <div class="card-text">
-    <ul style="padding: 5px;">
-      <li class="payment-card-list" *ngFor="let item of paymentTypes">
-        <div class="row">
-          <div class="col">
-            <a class="payment-card" [routerLink]="getRouterLink(item)">{{item.type}}</a>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
+<div class="card" *ngIf="isPaymentShow" style="margin-top: 15px;">
+    <div class="card-body" style="padding-bottom: 0px;">
+        <h4 class="card-title">Payment Method</h4>
+    </div>
+    <div class="card-text">
+        <ul style="padding: 5px;">
+            <li class="payment-card-list" *ngFor="let item of paymentTypes">
+                <div class="row">
+                    <div class="col">
+                        <a class="payment-card" [routerLink]="getRouterLink(item)">{{item.type}}</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>

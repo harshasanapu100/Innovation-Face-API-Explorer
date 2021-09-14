@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FaceApiService } from '../services/face-api-service.service';
 import * as _ from 'lodash';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { ToasterService } from 'angular2-toaster';
 
 @Component({
   selector: 'app-face-tester',
@@ -19,7 +20,7 @@ export class FaceTesterComponent implements OnInit {
   public selectedGroupId = '';
   @ViewChild('mainImg') mainImg;
 
-  constructor(private faceApi: FaceApiService) { }
+  constructor(private faceApi: FaceApiService, private toastr: ToasterService) { }
 
   ngOnInit() {
     this.loading = true;
@@ -64,12 +65,17 @@ export class FaceTesterComponent implements OnInit {
           detectedFace.identifiedPersonConfidence = identifiedFace.candidates[0].confidence;
           obsList.push(this.faceApi.getPerson(this.selectedGroupId, identifiedFace.candidates[0].personId));
         }
+        else{
+          this.toastr.pop('error', 'User authentication failed');
+          this.loading=false;
+        }
       });
 
       // Call getPerson() for each identified face
       forkJoin(obsList).subscribe(results => {
         this.identifiedPersons = results;
         this.loading = false;
+        this.toastr.pop('success', 'User authenticated successfully');
       });
     });
   }

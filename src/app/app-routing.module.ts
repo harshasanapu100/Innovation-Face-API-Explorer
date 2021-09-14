@@ -14,8 +14,7 @@ const routes: Routes = [
   // , canActivate: [AuthGuard]
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
-  //{ path: '', component: HomeComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'configuration', component: ConfigurationComponent },
   { path: 'shopping', component: ShoppingComponent },
   { path: 'test-faces', component: FaceTesterComponent },

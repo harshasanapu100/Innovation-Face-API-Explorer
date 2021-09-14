@@ -40,7 +40,7 @@ export class ShoppingListComponent implements OnInit {
       .subscribe((state: CartState) => {
         this.totalAmount = 0;
         this.products = state.products;
-        this.products.map(x => this.totalAmount += x.price);
+        this.products.map(x => this.totalAmount += x.amount);
       });
 
   }

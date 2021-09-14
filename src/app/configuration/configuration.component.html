@@ -1,5 +1,6 @@
 <div>
   <div class="container">
+    <app-nav-menu></app-nav-menu>
     <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
 
     <div class="card" style="background: darkslateblue !important;">
@@ -10,7 +11,7 @@
 
           <label class="mr-sm-2" for="exampleSelect1" style="color: white;">Groups:</label>
           <select [(ngModel)]="selectedGroupId" name="personGroups" class="form-control mb-2 mr-sm-2 mb-sm-0" (change)="onGroupsChange()">
-            <option value="">(Select)</option>
+            <option value="">--Select--</option>
             <option *ngFor="let group of personGroups" [value]="group.personGroupId">{{group.name}}</option>
           </select>
 

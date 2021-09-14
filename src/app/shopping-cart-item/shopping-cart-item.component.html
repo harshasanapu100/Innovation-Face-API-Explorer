@@ -1,9 +1,9 @@
 <div class="card">
-  <img src={{product.url}} class="card-img-top" alt="product image" style="height: 75%;width: 75%;" />
+  <img src={{product.imageUrl}} class="card-img-top" alt="product image" style="height: 65%;width: 65%;" />
   <div class="card-body">
-    <h5 class="card-title">{{product.name}}</h5>
+    <h5 class="card-title">{{product.name}} {{product.category}} </h5>
     <p class="card-text">
-      {{product.price}} {{product.currency}}
+      <b>price:</b> {{product.amount}} <b>size: </b>{{product.size}}
     </p>
     <div style="text-align: center;">
       <span class="add-cart" (click)="AddProduct(product)">Add to Cart</span>
