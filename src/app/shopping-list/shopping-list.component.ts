@@ -14,18 +14,20 @@ export class ShoppingListComponent implements OnInit {
   loaded: boolean = true
   products: any[];
   private subscription: Subscription;
+  totalAmount = 0;
+  isPaymentShow: boolean = false;
   paymentTypes: any[] = [
     {
-      id:1, type:'Face Recognization Payment (FRP)'
+      id: 1, type: 'Face Recognization Payment (FRP)'
     },
     {
-      id:2, type:'UPI Payment'
+      id: 2, type: 'UPI Payment'
     },
     {
-      id:1, type:'Credit / Debit Card'
+      id: 3, type: 'Credit / Debit Card'
     },
     {
-      id:1, type:'NetBanking'
+      id: 4, type: 'NetBanking'
     },
   ];
 
@@ -36,7 +38,9 @@ export class ShoppingListComponent implements OnInit {
       ._cartService
       .CartState
       .subscribe((state: CartState) => {
+        this.totalAmount = 0;
         this.products = state.products;
+        this.products.map(x => this.totalAmount += x.price);
       });
 
   }
@@ -44,6 +48,18 @@ export class ShoppingListComponent implements OnInit {
     this
       .subscription
       .unsubscribe();
+  }
+
+  getRouterLink(item: any): any {
+    switch (item.id) {
+      case 1: return "/test-faces"
+        break;
+      default: return "/Home"
+    }
+  }
+
+  checkout(): void {
+    this.isPaymentShow = true;
   }
 
 }

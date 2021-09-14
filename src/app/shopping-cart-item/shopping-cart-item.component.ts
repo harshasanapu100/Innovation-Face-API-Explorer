@@ -9,20 +9,18 @@ import { CartService } from '../services/cart.service';
 })
 export class ShoppingCartItemComponent implements OnInit {
   @Input() product: any;
-  constructor(private _cartService : CartService) { }
+  constructor(private _cartService: CartService) { }
 
   ngOnInit() {
     console.log(this.product);
   }
 
   AddProduct(_product: product) {
-    _product.added = true;
     this
       ._cartService
       .addProduct(_product);
   }
   RemoveProduct(_product: product) {
-    _product.added = false;
     this
       ._cartService
       .removeProduct(_product.id);

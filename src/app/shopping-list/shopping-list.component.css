@@ -1,0 +1,14 @@
+.payment-card-list{
+        padding: 10px;
+        border: 1px solid gray;
+        text-decoration: none;
+        background: blueviolet;
+        font-size: 20px;
+        color: whitesmoke;
+        margin-bottom: 2px;
+        border-radius: 5px;
+}
+.payment-card{
+    text-decoration: none;
+    color: whitesmoke;  
+}

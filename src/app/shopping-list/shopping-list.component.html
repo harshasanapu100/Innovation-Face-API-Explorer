@@ -14,11 +14,11 @@
   <div class="card-body">
     <div class="row">
       <div class="col">
-        <h4 class="card-title">Shopping Cart</h4>
+        <h5 class="card-title">Shopping Cart</h5>
       </div>
       <div class="col">
-        <button class="btn btn-success" style="float: right;">
-          <i class="bi bi-cart-check" (click)="checkout" title="checkout cart"
+        <button class="btn btn-success" [disabled]="!(products && products.length)" style="float: right;" (click)="checkout()">
+          <i class="bi bi-cart-check" (click)="checkout()" title="checkout cart"
             style="color: yellow;font-size: 16px;cursor: pointer;"></i>
           Checkout cart
         </button>
@@ -38,24 +38,25 @@
         </li>
       </ul>
     </div>
-    <div *ngIf="products && products.length" class="cart__total">Total: </div>
+    <div *ngIf="products && products.length" class="cart__total">
+      Total: <span>{{totalAmount}}</span>
+    </div>
   </div>
 </div>
 
-<div class="card" style="margin-top: 15px;">
-  <div class="card-body">
+<div class="card" *ngIf="isPaymentShow" style="margin-top: 15px;" >
+  <div class="card-body" style="padding-bottom: 0px;">
     <h4 class="card-title">Payment Method</h4>
   </div>
-  <div class="card-text" style="margin-top: 10px;">
+  <div class="card-text">
     <ul style="padding: 5px;">
-      <li *ngFor="let item of paymentTypes" class="cart-item">
+      <li class="payment-card-list" *ngFor="let item of paymentTypes">
         <div class="row">
           <div class="col">
-            <span>{{item.type}}</span>
+            <a class="payment-card" [routerLink]="getRouterLink(item)">{{item.type}}</a>
           </div>
         </div>
       </li>
     </ul>
   </div>
-  <div *ngIf="products && products.length" class="cart__total">Total: </div>
 </div>

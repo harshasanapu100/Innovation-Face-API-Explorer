@@ -1,28 +1,3 @@
-<!-- <div class="thumbnail">
-  <img src={{product.url}} class="fixwidth" alt="product image" />
-  <div class="caption clearfix">
-    <h5><a href={{product.url}}>{{product.name}}</a></h5>
-    <div class="product__price">{{product.price}} {{product.currency}}</div>
-    <div class="product__button-wrap">
-      <button  *ngIf="product.added"  (click)="RemoveProduct(product)" class="btn btn-primary">Remove
-      </button>
-      <button  *ngIf="! product.added"  (click)="AddProduct(product)" class="btn btn-primary">Add to cart
-       </button>
-    </div>
-  </div>
-</div> -->
-
-<!-- <div class="card">
-  <div class="card-body">
-  <h5 class="card-title">Card title</h5>
-  <p class="card-text">
-      Some quick example text to build on the card title and make up the bulk of the
-      card's content.
-  </p>
-  <button type="button" class="btn btn-primary">Button</button>
-  </div>
-</div> -->
-
 <div class="card">
   <img src={{product.url}} class="card-img-top" alt="product image" style="height: 75%;width: 75%;" />
   <div class="card-body">
@@ -31,11 +6,9 @@
       {{product.price}} {{product.currency}}
     </p>
     <div style="text-align: center;">
+      <span class="add-cart" (click)="AddProduct(product)">Add to Cart</span>
       <i class="bi bi-cart-plus" (click)="AddProduct(product)" title="Add Item"
-        style="color: green;font-size: 35px;cursor: pointer  !important;"></i>
-      <span style="font-size: 20px;">Cart</span>
-      <i class="bi bi-cart-dash" (click)="RemoveProduct(product)" title="Remove Item"
-        style="color: red;font-size: 35px;cursor: pointer !important;"></i>
+        style="color: green;font-size: 30px;cursor: pointer  !important;"></i>
     </div>
   </div>
 </div>
