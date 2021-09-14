@@ -12,17 +12,11 @@ export class ShoppingCartItemComponent implements OnInit {
   constructor(private _cartService: CartService) { }
 
   ngOnInit() {
-    console.log(this.product);
   }
 
   AddProduct(_product: product) {
     this
       ._cartService
       .addProduct(_product);
-  }
-  RemoveProduct(_product: product) {
-    this
-      ._cartService
-      .removeProduct(_product.id);
   }
 }

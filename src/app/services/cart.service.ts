@@ -16,8 +16,8 @@ export class CartService {
     this.cartSubject.next(<CartState>{ loaded: true, products: this.Products });
   }
   
-  removeProduct(id: number) {
-    this.Products = this.Products.filter((_item) => _item.id !== id)
+  removeProducts() {
+    this.Products = [];
     this.cartSubject.next(<CartState>{ loaded: false, products: this.Products });
   }
 

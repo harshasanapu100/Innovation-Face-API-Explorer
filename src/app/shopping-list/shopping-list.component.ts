@@ -48,12 +48,13 @@ export class ShoppingListComponent implements OnInit {
     this
       .subscription
       .unsubscribe();
+      this.products=[];
+      this._cartService.removeProducts();
   }
 
   getRouterLink(item: any): any {
     switch (item.id) {
-      case 1: return "/test-faces"
-        break;
+      case 1: return "/test-faces";
       default: return "/Home"
     }
   }
