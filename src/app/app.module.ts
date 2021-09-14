@@ -18,6 +18,10 @@ import { LoadingModule } from 'ngx-loading';
 import { ToasterModule } from 'angular2-toaster';
 import { ShoppingComponent } from './shopping/shopping.component';
 import { FaceTesterComponent } from './face-tester/face-tester.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { ShoppingCartItemComponent } from './shopping-cart-item/shopping-cart-item.component';
+import { CartService } from './services/cart.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,10 @@ import { FaceTesterComponent } from './face-tester/face-tester.component';
     ConfigurationComponent,
     FaceTesterComponent,
     InputBoxComponent,
-    ShoppingComponent
+    ShoppingComponent,
+    ShoppingCartComponent,
+    ShoppingListComponent,
+    ShoppingCartItemComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +48,8 @@ import { FaceTesterComponent } from './face-tester/face-tester.component';
   ],
   providers: [
     FaceApiService,
-    InputBoxService
+    InputBoxService,
+    CartService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

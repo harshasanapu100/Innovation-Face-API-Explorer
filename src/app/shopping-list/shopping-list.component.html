@@ -1,0 +1,61 @@
+<!-- <div class="panel panel-default">
+  <div class="panel-body">
+     <ul>
+       <li *ngFor="let item of products"  class="cart-item">
+         <span class="cart-item__name">{{item.name}}</span>
+         <span class="cart-item__price">{{item.price}}</span>
+       </li>
+     </ul>
+    <div class="cart__total">Total: </div>
+  </div>
+</div> -->
+
+<div class="card" style="margin-top: 15px;">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <h4 class="card-title">Shopping Cart</h4>
+      </div>
+      <div class="col">
+        <button class="btn btn-success" style="float: right;">
+          <i class="bi bi-cart-check" (click)="checkout" title="checkout cart"
+            style="color: yellow;font-size: 16px;cursor: pointer;"></i>
+          Checkout cart
+        </button>
+      </div>
+    </div>
+    <div class="card-text" style="margin-top: 10px;">
+      <ul style="padding: 5px;" [ngStyle]="{'border':products && products.length ?'2px solid gray':'none' }">
+        <li *ngFor="let item of products" class="cart-item">
+          <div class="row">
+            <div class="col">
+              <span>{{item.name}}</span>
+            </div>
+            <div class="col">
+              <span>{{item.price}}</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="products && products.length" class="cart__total">Total: </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top: 15px;">
+  <div class="card-body">
+    <h4 class="card-title">Payment Method</h4>
+  </div>
+  <div class="card-text" style="margin-top: 10px;">
+    <ul style="padding: 5px;">
+      <li *ngFor="let item of paymentTypes" class="cart-item">
+        <div class="row">
+          <div class="col">
+            <span>{{item.type}}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="products && products.length" class="cart__total">Total: </div>
+</div>
