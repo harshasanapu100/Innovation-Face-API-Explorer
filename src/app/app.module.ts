@@ -16,8 +16,8 @@ import { InputBoxComponent } from './input-box/input-box.component';
 import { InputBoxService } from './input-box/input-box.service';
 import { LoadingModule } from 'ngx-loading';
 import { ToasterModule } from 'angular2-toaster';
-import { FaceGroupingComponent } from './face-grouping/face-grouping.component';
 import { ShoppingComponent } from './shopping/shopping.component';
+import { FaceTesterComponent } from './face-tester/face-tester.component';
 
 @NgModule({
   declarations: [
@@ -25,8 +25,8 @@ import { ShoppingComponent } from './shopping/shopping.component';
     NavMenuComponent,
     HomeComponent,
     ConfigurationComponent,
+    FaceTesterComponent,
     InputBoxComponent,
-    FaceGroupingComponent,
     ShoppingComponent
   ],
   imports: [
