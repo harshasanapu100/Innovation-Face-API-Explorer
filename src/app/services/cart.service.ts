@@ -31,4 +31,13 @@ export class CartService {
         map((res: Response) => res)
       )
   }
+
+  checkOutCart(data: any): Observable<any> {
+    return this
+      .httpclient
+      .post(`${this.baseURL}/Payment`, { data: data })
+      .pipe(
+        map((res: Response) => res)
+      )
+  }
 }
