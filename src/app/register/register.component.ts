@@ -75,7 +75,14 @@ export class RegisterComponent implements OnInit {
         this.faceApi.createPerson(this.selectedGroupId, newPerson).subscribe(data => {
           // newPerson.personId = data.personId;
           this.registerForm.value.azurePersonId = data.personId;
-          this.registerIntoDB();
+          this.addBaseImage(data.personId);
+         // this.registerIntoDB();
         });
+    }
+
+    addBaseImage(personId){
+        this.faceApi.addPersonFace(this.selectedGroupId, personId, this.registerForm.value.baseURLText).subscribe(data => {
+            this.registerIntoDB();
+          });
     }
 }
