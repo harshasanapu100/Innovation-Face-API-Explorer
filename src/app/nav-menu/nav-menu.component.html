@@ -25,6 +25,8 @@
             <span class='fa fa-shopping-basket'></span> Shopping
           </a>
         </li>
+
+       
         <!-- <li class="nav-item dropdown">
           <div ngbDropdown class="d-inline-block">
             <a class="nav-item nav-link" ngbDropdownToggle>
@@ -44,6 +46,15 @@
           </div>
         </li> -->
       </ul>
+
+      <ul class="nav navbar-nav" *ngIf="this.authenticationService.currentUserValue != null">
+        <li class="nav-item">
+          <a class="nav-item nav-link" (click)="logOut()">
+            <span class='fa fa-power-off'></span>
+          </a>
+        </li>
+    </ul>
+
     </div>
 
   </div>

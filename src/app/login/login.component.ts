@@ -6,7 +6,6 @@ import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
-import { userInfo } from 'os';
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
@@ -88,7 +87,7 @@ export class LoginComponent implements OnInit {
               data => {
                    // store user details and jwt token in local storage to keep user logged in between page refreshes
               localStorage.setItem('currentUser', JSON.stringify(userInfo));
-             // this.authenticationService.currentUserSubject.next(userInfo);
+              this.authenticationService.currentUserSubject.next(userInfo);
                   this.router.navigate(['home']);
                   this.loading = false;
               },

@@ -11,13 +11,13 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
-  // ,, canActivate: [AuthGuard] 
-  { path: '', component: HomeComponent},
+  // ,
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'configuration', component: ConfigurationComponent },
-  { path: 'shopping', component: ShoppingComponent },
-  { path: 'test-faces', component: FaceTesterComponent },
+  { path: 'configuration', component: ConfigurationComponent, canActivate: [AuthGuard] },
+  { path: 'shopping', component: ShoppingComponent, canActivate: [AuthGuard] },
+  { path: 'test-faces', component: FaceTesterComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
 
