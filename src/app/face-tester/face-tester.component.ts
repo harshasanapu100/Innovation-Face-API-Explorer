@@ -66,7 +66,7 @@ export class FaceTesterComponent implements OnInit {
           obsList.push(this.faceApi.getPerson(this.selectedGroupId, identifiedFace.candidates[0].personId));
         }
         else{
-          this.toastr.pop('error', 'User authentication failed');
+          alert('User authentication failed');
           this.loading=false;
         }
       });
@@ -75,7 +75,7 @@ export class FaceTesterComponent implements OnInit {
       forkJoin(obsList).subscribe(results => {
         this.identifiedPersons = results;
         this.loading = false;
-        this.toastr.pop('success', 'User authenticated successfully');
+        alert('User authenticated successfully');
       });
     });
   }

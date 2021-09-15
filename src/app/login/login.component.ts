@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AuthenticationService } from '../services/authentication.service';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user';
+import { userInfo } from 'os';
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
@@ -17,6 +20,7 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
+        private userServce: UserService
        // private alertService: AlertService
     ) {
         // redirect to home if already logged in
@@ -49,19 +53,49 @@ export class LoginComponent implements OnInit {
             return;
         }
 
-        this.router.navigate(['home']);
+        this.login();
+       
+    }
 
-        // this.loading = true;
-        // this.authenticationService.login(this.f.username.value, this.f.password.value)
-        //   //  .pipe(first())
-        //   //
-        //     .subscribe(
-        //         data => {
-        //             this.router.navigate([]);
-        //         },
-        //         error => {
-        //           //  this.alertService.error(error);
-        //             this.loading = false;
-        //         });
+    login(){
+        this.loading = true;
+       this.getLoggedInUserInfo(this.f.username.value, this.f.password.value);
+    }
+
+     getLoggedInUserInfo(userName, password) {
+        this.userServce.getAll().subscribe(res => {
+            var userInfo = res.filter(x => x.name == userName && x.password == password);
+            if(userInfo == null || userInfo == undefined || userInfo.length == 0){
+                this.loginFromBackend(null);
+            }
+            else{
+                this.loginFromBackend(userInfo.shift());
+            }
+        });
+
+    }
+
+    loginFromBackend(userInfo){
+        if(userInfo == null){
+            alert('Not valid user');
+            this.loading = false;
+        }
+
+        this.authenticationService.login(userInfo.id, userInfo.azurePersonId)
+        //  .pipe(first())
+        //
+          .subscribe(
+              data => {
+                   // store user details and jwt token in local storage to keep user logged in between page refreshes
+              localStorage.setItem('currentUser', JSON.stringify(userInfo));
+             // this.authenticationService.currentUserSubject.next(userInfo);
+                  this.router.navigate(['home']);
+                  this.loading = false;
+              },
+              error => {
+                //  this.alertService.error(error);
+                alert('Not valid user');
+                  this.loading = false;
+              });
     }
 }

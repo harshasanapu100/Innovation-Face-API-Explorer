@@ -106,13 +106,16 @@ export class ConfigurationComponent implements OnInit {
     this.faceApi.getPersonGroupTrainingStatus(this.selectedGroupId).subscribe(result => {
       switch (result.status) {
         case 'succeeded':
-          this.toastr.pop('success', 'Training Succeeded');
+          alert('Training Succeeded');
+          ///this.toastr.pop('success', 'Training Succeeded');
           break;
         case 'running':
-          this.toastr.pop('info', 'Training still in progress...', 'Check back later');
+          alert('Training still in progress');
+          //this.toastr.pop('info', 'Training still in progress...', 'Check back later');
           break;
         case 'failed':
-          this.toastr.pop('error', 'Error during Training', result.message);
+          alert('Error during Training');
+          //this.toastr.pop('error', 'Error during Training', result.message);
           break;
         default:
           break;

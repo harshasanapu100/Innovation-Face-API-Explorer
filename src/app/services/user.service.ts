@@ -5,15 +5,15 @@ import { User } from '../models/user';
 
 @Injectable()
 export class UserService {
-    baseURL:string= "http://localhost:5000";
+    baseURL:string= "https://localhost:44390";
     constructor(private http: HttpClient) { }
 
     getAll() {
-        return this.http.get<User[]>(`${this.baseURL}/users`);
+        return this.http.get<User[]>(`${this.baseURL}/user`);
     }
 
     register(user: User) {
-        return this.http.post(`${this.baseURL}/users/register`, user);
+        return this.http.post(`${this.baseURL}/user`, user);
     }
 
     delete(id: number) {
