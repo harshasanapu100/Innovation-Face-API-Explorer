@@ -9,7 +9,7 @@ import { User } from '../models/user';
 export class AuthenticationService {
     public currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
-    baseURL:string= "https://localhost:44390";
+    baseURL:string= "http://localhost:5000";
 
     constructor(private http: HttpClient) {
         localStorage.removeItem('currentUser');
