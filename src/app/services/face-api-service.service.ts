@@ -103,7 +103,7 @@ export class FaceApiService {
     let request = {
       personGroupId: personGroupId,
       faceIds: faceIds,
-      confidenceThreshold: 0.8
+      confidenceThreshold: 1
     };
     return this.http.post<any[]>(`${this.baseUrl}/identify`, request, httpOptions);
   }

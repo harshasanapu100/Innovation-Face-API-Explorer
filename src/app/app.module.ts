@@ -28,6 +28,7 @@ import { RegisterComponent } from './register/register.component';
 import { AuthenticationService } from './services/authentication.service';
 import { UserService } from './services/user.service';
 import { AuthGuard } from './helpers/auth.guard';
+import { SharedService } from './services/shared.service';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { AuthGuard } from './helpers/auth.guard';
     CartService,
     AuthenticationService,
     UserService,
-    AuthGuard
+    AuthGuard,
+    SharedService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

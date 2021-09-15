@@ -3,6 +3,8 @@ import { FaceApiService } from '../services/face-api-service.service';
 import * as _ from 'lodash';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ToasterService } from 'angular2-toaster';
+import { SharedService } from '../services/shared.service';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-face-tester',
@@ -18,11 +20,20 @@ export class FaceTesterComponent implements OnInit {
   public personGroups = [];
   public selectedFace: any;
   public selectedGroupId = '';
+  public cartAmuont: number = 0;
+  public balance: number = 0;
   @ViewChild('mainImg') mainImg;
 
-  constructor(private faceApi: FaceApiService, private toastr: ToasterService) { }
+  constructor(private faceApi: FaceApiService, private toastr: ToasterService,
+    private sharedService: SharedService,
+    private cartService: CartService) { }
 
   ngOnInit() {
+    let currentuser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentuser) {
+      this.balance = currentuser.amount;
+    }
+    this.cartAmuont = this.sharedService.getCartAmount();
     this.loading = true;
     this.faceApi.getPersonGroups().subscribe(data => {
       this.personGroups = data;
@@ -65,9 +76,9 @@ export class FaceTesterComponent implements OnInit {
           detectedFace.identifiedPersonConfidence = identifiedFace.candidates[0].confidence;
           obsList.push(this.faceApi.getPerson(this.selectedGroupId, identifiedFace.candidates[0].personId));
         }
-        else{
-          alert('User authentication failed');
-          this.loading=false;
+        else {
+          alert('User authentication is failed');
+          this.loading = false;
         }
       });
 
@@ -76,6 +87,21 @@ export class FaceTesterComponent implements OnInit {
         this.identifiedPersons = results;
         this.loading = false;
         alert('User authenticated successfully');
+        let currentuser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentuser) {
+          this.balance = currentuser.amount;
+        }
+        let data = {
+          "UserId": currentuser.id,
+          "Amount": this.cartAmuont,
+          "NoOfItems": 3
+        }
+        this.cartService.checkOutCart(data).subscribe(res => {
+          if (this.cartAmuont < this.balance) {
+            this.balance = this.balance - this.cartAmuont;
+            this.cartAmuont = 0;
+          }
+        });
       });
     });
   }

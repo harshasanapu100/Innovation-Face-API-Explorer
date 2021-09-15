@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { product, productsCollection } from '../product';
 import { CartState } from '../services/cart-state';
 import { CartService } from '../services/cart.service';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-shopping-list',
