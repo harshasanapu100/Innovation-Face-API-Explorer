@@ -3,6 +3,7 @@ import { FaceApiService } from '../services/face-api-service.service';
 import { InputBoxService } from '../input-box/input-box.service';
 import * as _ from 'lodash';
 import { ToasterService } from 'angular2-toaster';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-configuration',
@@ -17,14 +18,16 @@ export class ConfigurationComponent implements OnInit {
   public selectedGroupId = '';
   public selectedPerson: any;
 
-  constructor(private faceApi: FaceApiService, private inputBox: InputBoxService, private toastr: ToasterService) { }
+  constructor(private faceApi: FaceApiService, private inputBox: InputBoxService,
+    private sharedService: SharedService, private toastr: ToasterService) { }
 
   ngOnInit() {
+    this.sharedService.clearCartAmount();
     this.faceApi.getPersonGroups().subscribe(data => this.personGroups = data);
   }
 
-  addPersonGroup(){
-    this.inputBox.show('Add Person Group', 'Person Group Name:').then(result => { 
+  addPersonGroup() {
+    this.inputBox.show('Add Person Group', 'Person Group Name:').then(result => {
       let newPersonGroup = { personGroupId: _.kebabCase(result), name: result };
       this.faceApi.createPersonGroup(newPersonGroup).subscribe(data => {
         this.personGroups.push(newPersonGroup);
@@ -45,17 +48,17 @@ export class ConfigurationComponent implements OnInit {
     if (this.selectedGroupId) {
       this.loading = true;
       this.faceApi.getPersonsByGroup(this.selectedGroupId).subscribe(data => {
-        this.personList = data; 
+        this.personList = data;
         this.selectedPerson = null;
         this.personFaces = [];
-        this.loading = false; 
+        this.loading = false;
       });
     }
   }
 
   personClick(person) {
     this.selectedPerson = person;
-    this.faceApi.getPersonFaces(this.selectedGroupId, this.selectedPerson.personId).subscribe(data => { 
+    this.faceApi.getPersonFaces(this.selectedGroupId, this.selectedPerson.personId).subscribe(data => {
       this.personFaces = data;
     });
   }
@@ -106,16 +109,16 @@ export class ConfigurationComponent implements OnInit {
     this.faceApi.getPersonGroupTrainingStatus(this.selectedGroupId).subscribe(result => {
       switch (result.status) {
         case 'succeeded':
-          alert('Training Succeeded');
-          ///this.toastr.pop('success', 'Training Succeeded');
+          //alert('Training Succeeded');
+          this.toastr.pop('success', 'Training Succeeded');
           break;
         case 'running':
-          alert('Training still in progress');
-          //this.toastr.pop('info', 'Training still in progress...', 'Check back later');
+          //alert('Training still in progress');
+          this.toastr.pop('info', 'Training still in progress...', 'Check back later');
           break;
         case 'failed':
-          alert('Error during Training');
-          //this.toastr.pop('error', 'Error during Training', result.message);
+          //alert('Error during Training');
+          this.toastr.pop('error', 'Error during Training', result.message);
           break;
         default:
           break;

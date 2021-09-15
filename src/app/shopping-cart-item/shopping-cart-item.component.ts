@@ -17,7 +17,7 @@ export class ShoppingCartItemComponent implements OnInit {
   }
 
   AddProduct(_product: any) {
-    this.sharedService.addCartAmount(_product.amount)
+    this.sharedService.addCartAmount(_product.amount);
     this
       ._cartService
       .addProduct(_product);

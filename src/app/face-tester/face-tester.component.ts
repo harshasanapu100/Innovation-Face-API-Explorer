@@ -5,6 +5,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ToasterService } from 'angular2-toaster';
 import { SharedService } from '../services/shared.service';
 import { CartService } from '../services/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-face-tester',
@@ -26,12 +27,13 @@ export class FaceTesterComponent implements OnInit {
 
   constructor(private faceApi: FaceApiService, private toastr: ToasterService,
     private sharedService: SharedService,
-    private cartService: CartService) { }
+    private cartService: CartService,
+    private route: Router) { }
 
   ngOnInit() {
     let currentuser = JSON.parse(localStorage.getItem('currentUser'));
     if (currentuser) {
-      this.balance = currentuser.amount;
+      this.balance = currentuser.balance;
     }
     this.cartAmuont = this.sharedService.getCartAmount();
     this.loading = true;
@@ -77,7 +79,7 @@ export class FaceTesterComponent implements OnInit {
           obsList.push(this.faceApi.getPerson(this.selectedGroupId, identifiedFace.candidates[0].personId));
         }
         else {
-          alert('User authentication is failed');
+          this.toastr.pop('error', 'Payment failed', 'Not a valid user.');
           this.loading = false;
         }
       });
@@ -86,12 +88,13 @@ export class FaceTesterComponent implements OnInit {
       forkJoin(obsList).subscribe(results => {
         this.identifiedPersons = results;
         this.loading = false;
-        alert('User authenticated successfully');
+        this.toastr.pop('success', 'Payment Successful', 'Thansk you for shopping with us.');
         let currentuser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentuser) {
-          this.balance = currentuser.amount;
+          this.balance = currentuser.balance;
         }
         let data = {
+          "Id": -1,
           "UserId": currentuser.id,
           "Amount": this.cartAmuont,
           "NoOfItems": 3
@@ -100,6 +103,9 @@ export class FaceTesterComponent implements OnInit {
           if (this.cartAmuont < this.balance) {
             this.balance = this.balance - this.cartAmuont;
             this.cartAmuont = 0;
+            setTimeout(() => {
+              this.route.navigate(['/shopping'])
+            }, 4000);
           }
         });
       });

@@ -4,9 +4,13 @@ import { Injectable } from '@angular/core';
 export class SharedService {
   private cartBalance: number = 0;
   private totalBalance: number = 0;
- 
+
   addCartAmount(amount: number) {
     this.cartBalance += amount;
+  }
+
+  clearCartAmount() {
+    this.cartBalance = 0;
   }
 
   getCartAmount(): number {
@@ -14,7 +18,7 @@ export class SharedService {
   }
 
   setTotalBalance(amount: number) {
-    this.totalBalance =amount;
+    this.totalBalance = amount;
   }
 
   getTotalBalance(): number {
