@@ -13,6 +13,7 @@ export class UserService {
     }
 
     register(user: User) {
+        user.balance = 10000;
         return this.http.post(`${this.baseURL}/user`, user);
     }
 
