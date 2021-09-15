@@ -5,18 +5,21 @@ import { first } from 'rxjs/operators';
 
 import {  AuthenticationService } from '../services/authentication.service';
 import { UserService } from '../services/user.service';
+import { FaceApiService } from '../services/face-api-service.service';
 
 @Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
     submitted = false;
+    selectedGroupId = 'test-group';
 
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
         private authenticationService: AuthenticationService,
         private userService: UserService,
+        private faceApi: FaceApiService
         //private alertService: AlertService
     ) {
         // redirect to home if already logged in
@@ -27,11 +30,11 @@ export class RegisterComponent implements OnInit {
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
-            username: ['', Validators.required],
+            name: ['', Validators.required],
+            contact: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(6)]],
-            baseURLText: ['', Validators.required]
+            baseURLText: ['', Validators.required],
+            gender: ['', Validators.required]
         });
     }
 
@@ -49,6 +52,10 @@ export class RegisterComponent implements OnInit {
             return;
         }
 
+       this.createPerson();
+    }
+
+    registerIntoDB(){
         this.loading = true;
         this.userService.register(this.registerForm.value)
             .pipe(first())
@@ -61,5 +68,14 @@ export class RegisterComponent implements OnInit {
                     // this.alertService.error(error);
                     this.loading = false;
                 });
+    }
+
+    createPerson(){
+        let newPerson: any = { name: this.registerForm.value.name };
+        this.faceApi.createPerson(this.selectedGroupId, newPerson).subscribe(data => {
+          // newPerson.personId = data.personId;
+          this.registerForm.value.azurePersonId = data.personId;
+          this.registerIntoDB();
+        });
     }
 }

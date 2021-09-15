@@ -7,8 +7,9 @@ import { User } from '../models/user';
 
 @Injectable()
 export class AuthenticationService {
-    private currentUserSubject: BehaviorSubject<User>;
+    public currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
+    baseURL:string= "https://localhost:44390";
 
     constructor(private http: HttpClient) {
         localStorage.removeItem('currentUser');
@@ -20,22 +21,12 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(username, password): any {
-       var obj = new User();
-       obj.id = 1;
-       obj.username = 'testUser';
-        localStorage.setItem('currentUser', JSON.stringify(obj));
-        //this.currentUserSubject.next(obj);
-        return obj;
-    
+    login(userId, azurePersonId): any {
 
-        // return this.http.post<any>(`${config.apiUrl}/users/authenticate`, { username, password })
-        //     .pipe(map(user => {
-        //         // store user details and jwt token in local storage to keep user logged in between page refreshes
-        //         localStorage.setItem('currentUser', JSON.stringify(user));
-        //         this.currentUserSubject.next(user);
-        //         return user;
-        //     }));
+        return this.http.get(`${this.baseURL}/User/Face?userId=${userId}&azurePersonId=${azurePersonId}`)
+            .pipe(map(user => {
+                return true;
+            }));
     }
 
     logout() {
