@@ -100,13 +100,10 @@ export class FaceTesterComponent implements OnInit {
           "NoOfItems": 3
         }
         this.cartService.checkOutCart(data).subscribe(res => {
-          if (this.cartAmuont < this.balance) {
-            this.balance = this.balance - this.cartAmuont;
-            this.cartAmuont = 0;
+          this.cartAmuont = 0;
             setTimeout(() => {
               this.route.navigate(['/shopping'])
             }, 4000);
-          }
         });
       });
     });

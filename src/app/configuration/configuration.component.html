@@ -33,7 +33,7 @@
               <button class="btn btn-warning mb-sm-2" (click)="addPerson()">Add Person</button>
             </div>
             <div class="row">
-              <button *ngFor="let person of personList" class="btn btn-primary mb-sm-2" (click)="personClick(person)">
+              <button *ngFor="let person of personList"  style="margin:2px" class="btn btn-primary" (click)="personClick(person)">
                 {{person.name}}
               </button>
             </div>
