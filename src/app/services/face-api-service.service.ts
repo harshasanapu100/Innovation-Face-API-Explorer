@@ -124,6 +124,6 @@ export class FaceApiService {
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Ocp-Apim-Subscription-Key': 'ba3b4115afd041df85fc1d074cad1c84'
+    'Ocp-Apim-Subscription-Key': '813b2ecdee3d4891b622bc1bc51c2122'
   })
 };
