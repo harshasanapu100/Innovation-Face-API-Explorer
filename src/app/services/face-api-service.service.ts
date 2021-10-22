@@ -8,7 +8,7 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class FaceApiService {
 
-  private baseUrl = 'https://eastus.api.cognitive.microsoft.com/face/v1.0/';
+  private baseUrl = 'https://centralindia.api.cognitive.microsoft.com/face/v1.0/';
 
   constructor(private http: HttpClient) { }
 
