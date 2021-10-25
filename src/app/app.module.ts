@@ -29,6 +29,10 @@ import { AuthenticationService } from './services/authentication.service';
 import { UserService } from './services/user.service';
 import { AuthGuard } from './helpers/auth.guard';
 import { SharedService } from './services/shared.service';
+import { CameraComponent } from './camera/camera.component';
+import { WebcamModule } from 'ngx-webcam';
+import { AudioComponent } from './audio/audio.component';
+import { AudioRecordingService } from './services/audio-recording.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,9 @@ import { SharedService } from './services/shared.service';
     ShoppingListComponent,
     ShoppingCartItemComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    CameraComponent,
+    AudioComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +59,7 @@ import { SharedService } from './services/shared.service';
     HttpClientModule,
     LoadingModule,
     ReactiveFormsModule,
+    WebcamModule,
     NgbModule.forRoot(),
     ToasterModule.forRoot()
   ],
@@ -63,7 +70,8 @@ import { SharedService } from './services/shared.service';
     AuthenticationService,
     UserService,
     AuthGuard,
-    SharedService
+    SharedService,
+    AudioRecordingService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

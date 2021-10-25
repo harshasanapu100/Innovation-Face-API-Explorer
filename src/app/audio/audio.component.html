@@ -1,0 +1,14 @@
+<div>
+  <button type="button" class="btn btn-success" *ngIf="!isAudioRecording" (click)="startAudioRecording()">Start Audio
+    Recording</button>
+  <button type="button" class="btn btn-success" *ngIf="isAudioRecording && !audioBlobUrl"
+    (click)="stopAudioRecording()">Stop Audio Recording</button>
+  <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl"> {{ audioRecordedTime }} </div>
+  <br>  
+  <br>
+  <div>
+    <audio *ngIf="!isAudioRecording && audioBlobUrl" controls>
+      <source [src]="audioBlobUrl" type="audio/mp3">
+    </audio>
+  </div>
+</div>

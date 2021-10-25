@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import {  AuthenticationService } from '../services/authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { UserService } from '../services/user.service';
 import { FaceApiService } from '../services/face-api-service.service';
+import { WebcamImage } from 'ngx-webcam';
 
 @Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
@@ -13,7 +14,9 @@ export class RegisterComponent implements OnInit {
     loading = false;
     submitted = false;
     selectedGroupId = 'test-group';
-
+    webcamImage: WebcamImage | undefined;
+    isMFAEnabled: boolean = false;
+    audioblob:any;
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
@@ -33,7 +36,7 @@ export class RegisterComponent implements OnInit {
             name: ['', Validators.required],
             contact: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(6)]],
-            baseURLText: ['', Validators.required],
+            //baseURLText: ['', Validators.required],
             gender: ['', Validators.required]
         });
     }
@@ -52,10 +55,10 @@ export class RegisterComponent implements OnInit {
             return;
         }
 
-       this.createPerson();
+        this.createPerson();
     }
 
-    registerIntoDB(){
+    registerIntoDB() {
         this.loading = true;
         this.userService.register(this.registerForm.value)
             .pipe(first())
@@ -70,19 +73,31 @@ export class RegisterComponent implements OnInit {
                 });
     }
 
-    createPerson(){
+    createPerson() {
         let newPerson: any = { name: this.registerForm.value.name };
         this.faceApi.createPerson(this.selectedGroupId, newPerson).subscribe(data => {
-          // newPerson.personId = data.personId;
-          this.registerForm.value.azurePersonId = data.personId;
-          this.addBaseImage(data.personId);
-         // this.registerIntoDB();
+            // newPerson.personId = data.personId;
+            this.registerForm.value.azurePersonId = data.personId;
+            //this.addBaseImage(data.personId);
+            // this.registerIntoDB();
         });
     }
 
-    addBaseImage(personId){
+    addBaseImage(personId) {
         this.faceApi.addPersonFace(this.selectedGroupId, personId, this.registerForm.value.baseURLText).subscribe(data => {
             this.registerIntoDB();
-          });
+        });
+    }
+
+    handleImage(webcamImage: WebcamImage) {
+        this.webcamImage = webcamImage;
+    }
+
+    handleAudio(audio: any) {
+        this.audioblob = audio;
+    }
+
+    updateMFA(): void {
+        this.isMFAEnabled = !this.isMFAEnabled;
     }
 }
