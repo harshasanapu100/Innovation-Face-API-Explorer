@@ -67,7 +67,9 @@ export class AudioComponent implements OnDestroy, OnInit {
     if (this.isAudioRecording) {
       this.audioRecordingService.stopRecording();
       this.isAudioRecording = false;
-      this.getAudio.emit(this.audioBlob);
+      setTimeout(() => {
+        this.getAudio.emit(this.audioBlob);
+      }, 1000)
     }
   }
 
