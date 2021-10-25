@@ -3,13 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { environment } from './../../environments/environment';
 import { User } from '../models/user';
+
 
 @Injectable()
 export class AuthenticationService {
     public currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
-    baseURL:string= "http://localhost:5000";
+    baseURL:string= environment.baseURL;
 
     constructor(private http: HttpClient) {
         localStorage.removeItem('currentUser');

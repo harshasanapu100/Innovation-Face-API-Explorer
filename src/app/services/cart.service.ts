@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { product } from '../product';
 import { CartState } from './cart-state';
+import { environment } from './../../environments/environment';
 
 @Injectable()
 export class CartService {
@@ -11,7 +12,7 @@ export class CartService {
   private cartSubject = new Subject<CartState>();
   Products: product[] = [];
   CartState = this.cartSubject.asObservable();
-  baseURL: string = "http://localhost:5000";
+  baseURL: string = environment.baseURL;
 
   addProduct(_product: any) {
     this.Products.push(_product)
