@@ -3,6 +3,8 @@ import { AudioRecordingService } from '../services/audio-recording.service';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { environment } from './../../environments/environment';
+
 @Component({
   selector: 'app-audio',
   templateUrl: './audio.component.html',
@@ -11,6 +13,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class AudioComponent implements OnDestroy, OnInit {
   @Output() getAudio = new EventEmitter<any>();
+
+  baseURL: string = environment.baseURL;
   displayControls = true;
   isAudioRecording = false;
   audioRecordedTime: any;
@@ -78,7 +82,8 @@ export class AudioComponent implements OnDestroy, OnInit {
   }
 
   downloadAudioRecordedData() {
-    this.http.post("http://localhost:5000/User/VoiceEnroll?userId=1234", this.audioBlob).subscribe(res => {
+    let url = `${this.baseURL}/User/VoiceEnroll?userId=1234`
+    this.http.post(url, this.audioBlob).subscribe(res => {
       console.log(res);
     });
     //this._downloadFile(this.audioBlob, 'audio/mp3', this.audioName);

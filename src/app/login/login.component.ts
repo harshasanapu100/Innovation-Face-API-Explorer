@@ -5,7 +5,11 @@ import { first } from 'rxjs/operators';
 
 import { AuthenticationService } from '../services/authentication.service';
 import { UserService } from '../services/user.service';
+import {TextVoiceConverterService } from '../services/text-voice-converter.service';
+
 import { User } from '../models/user';
+
+
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
@@ -14,12 +18,18 @@ export class LoginComponent implements OnInit {
     submitted = false;
     returnUrl: string;
 
+    // Speech Data
+    speech: any;
+    speechData: any;
+    text = '';
+
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private userServce: UserService
+        private userServce: UserService,
+        private textVoiceConServ: TextVoiceConverterService,
        // private alertService: AlertService
     ) {
         // redirect to home if already logged in
@@ -88,13 +98,16 @@ export class LoginComponent implements OnInit {
                    // store user details and jwt token in local storage to keep user logged in between page refreshes
               localStorage.setItem('currentUser', JSON.stringify(userInfo));
               this.authenticationService.currentUserSubject.next(userInfo);
+                this.textVoiceConServ.start('Logged into FRP system.');
                   this.router.navigate(['home']);
                   this.loading = false;
               },
               error => {
+                this.textVoiceConServ.start('Unable to find user into FRP system.');
                 //  this.alertService.error(error);
                 alert('Not valid user');
                   this.loading = false;
               });
     }
+
 }
