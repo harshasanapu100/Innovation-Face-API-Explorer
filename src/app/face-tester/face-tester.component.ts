@@ -7,6 +7,8 @@ import { SharedService } from '../services/shared.service';
 import { CartService } from '../services/cart.service';
 import { Router } from '@angular/router';
 
+import { TextVoiceConverterService } from '../services/text-voice-converter.service';
+
 @Component({
   selector: 'app-face-tester',
   templateUrl: './face-tester.component.html',
@@ -28,7 +30,10 @@ export class FaceTesterComponent implements OnInit {
   constructor(private faceApi: FaceApiService, private toastr: ToasterService,
     private sharedService: SharedService,
     private cartService: CartService,
-    private route: Router) { }
+    private textVoiceCon : TextVoiceConverterService,
+    private route: Router) {
+
+     }
 
   ngOnInit() {
     let currentuser = JSON.parse(localStorage.getItem('currentUser'));
@@ -36,6 +41,7 @@ export class FaceTesterComponent implements OnInit {
       this.balance = currentuser.balance;
     }
     this.cartAmuont = this.sharedService.getCartAmount();
+    this.textVoiceCon.start(`Total order value for the current transaction is ${this.cartAmuont}`);
     this.loading = true;
     this.faceApi.getPersonGroups().subscribe(data => {
       this.personGroups = data;

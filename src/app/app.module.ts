@@ -33,6 +33,7 @@ import { CameraComponent } from './camera/camera.component';
 import { WebcamModule } from 'ngx-webcam';
 import { AudioComponent } from './audio/audio.component';
 import { AudioRecordingService } from './services/audio-recording.service';
+import { TextVoiceConverterService } from './services/text-voice-converter.service';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { AudioRecordingService } from './services/audio-recording.service';
     UserService,
     AuthGuard,
     SharedService,
-    AudioRecordingService
+    AudioRecordingService,
+    TextVoiceConverterService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
