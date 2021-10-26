@@ -29,4 +29,8 @@ export class UserService {
     voiceEnroll(file:any){
         return this.http.post(`${this.baseURL}/user/VoiceEnroll`, file);
     }
+
+    authenticateVoice(file:any, id:any){
+        return this.http.post(`${this.baseURL}/user/Voice/${id}`,file);
+    }
 }

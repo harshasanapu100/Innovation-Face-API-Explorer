@@ -8,6 +8,8 @@ import { CartService } from '../services/cart.service';
 import { Router } from '@angular/router';
 
 import { TextVoiceConverterService } from '../services/text-voice-converter.service';
+import { WebcamImage } from 'ngx-webcam';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-face-tester',
@@ -26,14 +28,18 @@ export class FaceTesterComponent implements OnInit {
   public cartAmuont: number = 0;
   public balance: number = 0;
   @ViewChild('mainImg') mainImg;
+  webcamImage: WebcamImage | undefined;
+  webcamImageUrl: any;
+  audioblob: any;
 
   constructor(private faceApi: FaceApiService, private toastr: ToasterService,
     private sharedService: SharedService,
     private cartService: CartService,
-    private textVoiceCon : TextVoiceConverterService,
-    private route: Router) {
+    private textVoiceCon: TextVoiceConverterService,
+    private route: Router,
+    private userService: UserService,) {
 
-     }
+  }
 
   ngOnInit() {
     let currentuser = JSON.parse(localStorage.getItem('currentUser'));
@@ -107,9 +113,9 @@ export class FaceTesterComponent implements OnInit {
         }
         this.cartService.checkOutCart(data).subscribe(res => {
           this.cartAmuont = 0;
-            setTimeout(() => {
-              this.route.navigate(['/shopping'])
-            }, 4000);
+          setTimeout(() => {
+            this.route.navigate(['/shopping'])
+          }, 4000);
         });
       });
     });
@@ -120,5 +126,44 @@ export class FaceTesterComponent implements OnInit {
     this.detectedFaces = [];
     let img = this.mainImg.nativeElement;
     this.multiplier = img.clientWidth / img.naturalWidth;
+  }
+
+  handleImage(webcamImage: WebcamImage) {
+    this.webcamImage = webcamImage;
+    var blob = this.dataURItoBlob(this.webcamImage.imageAsDataUrl);
+    this.userService.uploadImage(blob).pipe().subscribe(imageId => {
+      this.webcamImageUrl = imageId;
+      console.log(imageId);
+    });
+  }
+
+  dataURItoBlob(dataURI: string) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+      byteString = atob(dataURI.split(',')[1]);
+    else
+      byteString = unescape(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], { type: mimeString });
+  }
+
+  handleAudio(audio: any) {
+    this.audioblob = audio;
+    let currentuser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentuser) {
+      this.userService.authenticateVoice(this.audioblob, currentuser.id).subscribe(voiceId => {
+        console.log(voiceId);
+      });
+    }
   }
 }

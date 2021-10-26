@@ -105,8 +105,6 @@ export class RegisterComponent implements OnInit {
 
     handleImage(webcamImage: WebcamImage) {
         this.webcamImage = webcamImage;
-
-
     }
 
     handleAudio(audio: any) {
