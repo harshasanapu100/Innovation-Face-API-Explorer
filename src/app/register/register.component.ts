@@ -7,6 +7,9 @@ import { AuthenticationService } from '../services/authentication.service';
 import { UserService } from '../services/user.service';
 import { FaceApiService } from '../services/face-api-service.service';
 import { WebcamImage } from 'ngx-webcam';
+import { resolveDep } from '@angular/core/src/view/provider';
+import { resolve } from 'path';
+import { User } from '../models/user';
 
 @Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
@@ -16,7 +19,7 @@ export class RegisterComponent implements OnInit {
     selectedGroupId = 'test-group';
     webcamImage: WebcamImage | undefined;
     isMFAEnabled: boolean = false;
-    audioblob:any;
+    audioblob: any;
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
@@ -58,9 +61,17 @@ export class RegisterComponent implements OnInit {
         this.createPerson();
     }
 
-    registerIntoDB() {
+    registerIntoDB(imageId, voiceId) {
         this.loading = true;
-        this.userService.register(this.registerForm.value)
+        var user = {
+            contact: this.registerForm.value.contact,
+            gender: this.registerForm.value.gender,
+            name: this.registerForm.value.name,
+            password: this.registerForm.value.password,
+            azurePersonId: imageId,
+            azureVoiceId: voiceId
+        };
+        this.userService.register(user)
             .pipe(first())
             .subscribe(
                 data => {
@@ -76,21 +87,26 @@ export class RegisterComponent implements OnInit {
     createPerson() {
         let newPerson: any = { name: this.registerForm.value.name };
         this.faceApi.createPerson(this.selectedGroupId, newPerson).subscribe(data => {
-            // newPerson.personId = data.personId;
             this.registerForm.value.azurePersonId = data.personId;
-            //this.addBaseImage(data.personId);
-            // this.registerIntoDB();
+            var blob = this.dataURItoBlob(this.webcamImage.imageAsDataUrl);
+            this.userService.uploadImage(blob).pipe().subscribe(imageId => {
+                this.addBaseImage(data.personId, imageId);
+            });
         });
     }
 
-    addBaseImage(personId) {
-        this.faceApi.addPersonFace(this.selectedGroupId, personId, this.registerForm.value.baseURLText).subscribe(data => {
-            this.registerIntoDB();
+    addBaseImage(personId, imageId) {
+        this.faceApi.addPersonFace(this.selectedGroupId, personId, imageId).subscribe(data => {
+            this.userService.voiceEnroll(this.audioblob).subscribe(voiceId => {
+                this.registerIntoDB(data.persistedFaceId, voiceId);
+            });
         });
     }
 
     handleImage(webcamImage: WebcamImage) {
         this.webcamImage = webcamImage;
+
+
     }
 
     handleAudio(audio: any) {
@@ -99,5 +115,25 @@ export class RegisterComponent implements OnInit {
 
     updateMFA(): void {
         this.isMFAEnabled = !this.isMFAEnabled;
+    }
+
+    dataURItoBlob(dataURI: string) {
+        // convert base64/URLEncoded data component to raw binary data held in a string
+        var byteString;
+        if (dataURI.split(',')[0].indexOf('base64') >= 0)
+            byteString = atob(dataURI.split(',')[1]);
+        else
+            byteString = unescape(dataURI.split(',')[1]);
+
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+        // write the bytes of the string to a typed array
+        var ia = new Uint8Array(byteString.length);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+
+        return new Blob([ia], { type: mimeString });
     }
 }

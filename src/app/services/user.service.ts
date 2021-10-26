@@ -12,12 +12,20 @@ export class UserService {
         return this.http.get<User[]>(`${this.baseURL}/user`);
     }
 
-    register(user: User) {
+    register(user: any) {
         user.balance = 10000;
         return this.http.post(`${this.baseURL}/user`, user);
     }
 
     delete(id: number) {
-        return this.http.delete(`${this.baseURL}/users/${id}`);
+        return this.http.delete(`${this.baseURL}/user/${id}`);
+    }
+
+    uploadImage(file:any){
+        return this.http.post(`${this.baseURL}/user/UploadImage`, file);
+    }
+
+    voiceEnroll(file:any){
+        return this.http.post(`${this.baseURL}/user/VoiceEnroll`, file);
     }
 }

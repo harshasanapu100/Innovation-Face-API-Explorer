@@ -7,4 +7,5 @@ export class User {
     password: string;
     azurePersonId: string;
     baseURLText: string;
+    azureVoiceId:string;
 }
