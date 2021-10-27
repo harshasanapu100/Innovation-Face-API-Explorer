@@ -7,10 +7,8 @@ import { AuthenticationService } from '../services/authentication.service';
 import { UserService } from '../services/user.service';
 import { FaceApiService } from '../services/face-api-service.service';
 import { WebcamImage } from 'ngx-webcam';
-import { resolveDep } from '@angular/core/src/view/provider';
-import { resolve } from 'path';
-import { User } from '../models/user';
 
+declare function unescape(s:string): string;
 @Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
     registerForm: FormGroup;

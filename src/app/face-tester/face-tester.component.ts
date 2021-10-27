@@ -11,6 +11,8 @@ import { TextVoiceConverterService } from '../services/text-voice-converter.serv
 import { WebcamImage } from 'ngx-webcam';
 import { UserService } from '../services/user.service';
 
+declare function unescape(s:string): string;
+
 @Component({
   selector: 'app-face-tester',
   templateUrl: './face-tester.component.html',
