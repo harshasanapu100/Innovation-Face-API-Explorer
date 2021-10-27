@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
     submitted = false;
     selectedGroupId = 'test-group';
     webcamImage: WebcamImage | undefined;
-    isMFAEnabled: boolean = false;
+    isMFAEnabled: boolean = true;
     audioblob: any;
     constructor(
         private formBuilder: FormBuilder,

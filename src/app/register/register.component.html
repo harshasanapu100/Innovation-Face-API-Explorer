@@ -106,7 +106,10 @@
                             <div class="col-md-12 mb-4">
                                 <div class="form-outline">
                                     <label class="form-label">
-                                        <input  type="checkbox" [value]="isMFAEnabled"  (change)="updateMFA()">
+                                        <input  type="checkbox" 
+                                        [disabled]="true"
+                                        [value]="isMFAEnabled"  (change)="updateMFA()"
+                                        checked>
                                         Enable MFA
                                     </label>
                                 </div>
