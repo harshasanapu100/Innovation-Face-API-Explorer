@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('currentUser', JSON.stringify(userInfo));
               this.authenticationService.currentUserSubject.next(userInfo);
                 this.textVoiceConServ.start('Logged into FRP system.');
-                 // this.router.navigate(['home']);
+                 this.router.navigate(['home']);
                   this.loading = false;
               },
               error => {
