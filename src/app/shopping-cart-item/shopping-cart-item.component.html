@@ -1,14 +1,28 @@
-<div class="card">
-  <img src={{product.imageUrl}} class="card-img-top" alt="product image" style="height: 65%;width: 65%;" />
+<div class="card" style="height: 280px;">
+  <img src={{product.imageUrl}} class="card-img-top" alt="product image" 
+  style="height: 65%;width: 65%;margin-left: 30px;" />
   <div class="card-body">
     <h5 class="card-title">{{product.name}} {{product.category}} </h5>
     <p class="card-text">
       <b>price:</b> {{product.amount}} <b>size: </b>{{product.size}}
     </p>
     <div style="text-align: center;">
-      <span class="add-cart" (click)="AddProduct(product)">Add to Cart</span>
-      <i class="bi bi-cart-plus" (click)="AddProduct(product)" title="Add Item"
-        style="color: green;font-size: 30px;cursor: pointer  !important;"></i>
+
+
+      <button type="button" class="btn btn-gre btn-success mr-1 mb-2" (click)="AddProduct(product)" >
+        <i class="bi bi-cart-plus" style="cursor: pointer  !important;"></i></button>
+
+      <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main"
+            data-toggle="tooltip" data-placement="top" title="Add to wishlist">
+            <i class="bi bi-heart"></i>
+            </button>
+
+
+      <!-- <span class="add-cart" (click)="AddProduct(product)">Add to Cart</span> -->
+      <!-- <i class="bi bi-cart-plus" (click)="AddProduct(product)" title="Add Item"
+        style="color: green;font-size: 30px;cursor: pointer  !important;"></i> -->
     </div>
   </div>
 </div>
+
+

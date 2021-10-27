@@ -8,6 +8,8 @@ import { UserService } from '../services/user.service';
 import { FaceApiService } from '../services/face-api-service.service';
 import { WebcamImage } from 'ngx-webcam';
 
+import { ToasterService } from 'angular2-toaster';
+
 declare function unescape(s:string): string;
 @Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
@@ -23,7 +25,8 @@ export class RegisterComponent implements OnInit {
         private router: Router,
         private authenticationService: AuthenticationService,
         private userService: UserService,
-        private faceApi: FaceApiService
+        private faceApi: FaceApiService,
+        private toastr: ToasterService, 
         //private alertService: AlertService
     ) {
         // redirect to home if already logged in
@@ -47,6 +50,7 @@ export class RegisterComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
+        this.loading = true;
 
         // reset alerts on submit
         // this.alertService.clear();
@@ -73,10 +77,12 @@ export class RegisterComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
+                    this.toastr.pop('success', 'User Registeration Successful', '');
                     // this.alertService.success('Registration successful', true);
                     this.router.navigate(['/login']);
                 },
                 error => {
+                    this.toastr.pop('error', 'User Registeration failed', '');
                     // this.alertService.error(error);
                     this.loading = false;
                 });
