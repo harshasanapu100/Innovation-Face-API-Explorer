@@ -2,7 +2,7 @@
   <div class="btn-group" style="margin-bottom: 5px;">
     <button type="button" class="btn btn-success" style="border-radius: 0.25rem;" (click)="onOffWebCame()">Switch camera</button>
     &nbsp;&nbsp;
-    <button type="button" class="btn btn-success" style="border-radius: 0.25rem;" (click)="takeSnapshot()">Take Picture</button>
+    <button type="button" class="btn btn-success" [disabled]="!showWebcam" style="border-radius: 0.25rem;" (click)="takeSnapshot()">Take Picture</button>
   </div> <br />
   <webcam [height]="500" [width]="1000" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
     *ngIf="showWebcam" [switchCamera]="nextWebcamObservable"></webcam>

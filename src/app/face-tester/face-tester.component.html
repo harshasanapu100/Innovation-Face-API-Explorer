@@ -22,18 +22,18 @@
                     <div class="form-group">
                         <label for="dpText" style="color: white;">Take Image</label>
                         <app-camera (getPicture)="handleImage($event)"></app-camera>
-                        <div class="webcam-image" *ngIf="webcamImage">
+                        <!-- <div class="webcam-image" *ngIf="webcamImage">
                             <img [src]="webcamImage.imageAsDataUrl" style="height: 200px; width: auto;" />
-                        </div>
+                        </div> -->
                         <source media="(min-width: )" srcset="" sizes="">
                     </div>
                     <div class="form-group">
                         <label for="dpText" style="color: white;">Capture Voice</label>
                         <app-audio (getAudio)="handleAudio($event)"></app-audio>
                     </div>
-                    <button class="btn btn-warning mr-sm-2" [disabled]="!selectedGroupId"
+                    <button class="btn btn-warning mr-sm-2" [disabled]="isIdentifyButtonDisable()"
                         (click)="detect()">Detect</button>
-                    <button class="btn btn-warning" [disabled]="!selectedGroupId" (click)="identify()">Identify</button>
+                    <button class="btn btn-warning" [disabled]="isIdentifyButtonDisable()" (click)="identify()">Identify</button>
                     <br>
                     <br>
                     <div class="row">

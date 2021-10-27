@@ -11,7 +11,7 @@ import { TextVoiceConverterService } from '../services/text-voice-converter.serv
 import { WebcamImage } from 'ngx-webcam';
 import { UserService } from '../services/user.service';
 
-declare function unescape(s:string): string;
+declare function unescape(s: string): string;
 
 @Component({
   selector: 'app-face-tester',
@@ -33,6 +33,7 @@ export class FaceTesterComponent implements OnInit {
   webcamImage: WebcamImage | undefined;
   webcamImageUrl: any;
   audioblob: any;
+  isVoiceAuthenticated: boolean = false;
 
   constructor(private faceApi: FaceApiService, private toastr: ToasterService,
     private sharedService: SharedService,
@@ -99,26 +100,35 @@ export class FaceTesterComponent implements OnInit {
       });
 
       // Call getPerson() for each identified face
-      forkJoin(obsList).subscribe(results => {
-        this.identifiedPersons = results;
-        this.loading = false;
-        this.toastr.pop('success', 'Payment Successful', 'Thansk you for shopping with us.');
+      forkJoin(obsList).subscribe((results: any) => {
         let currentuser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentuser) {
-          this.balance = currentuser.balance;
-        }
-        let data = {
-          "Id": -1,
-          "UserId": currentuser.id,
-          "Amount": this.cartAmuont,
-          "NoOfItems": 3
-        }
-        this.cartService.checkOutCart(data).subscribe(res => {
-          this.cartAmuont = 0;
-          setTimeout(() => {
-            this.route.navigate(['/shopping'])
-          }, 4000);
+        this.identifiedPersons = results[0].persistedFaceIds;
+        this.userService.authenticateFace(currentuser.id, this.identifiedPersons[0]).subscribe(res => {
+          if (res && this.isVoiceAuthenticated) {
+            this.loading = false;
+            this.toastr.pop('success', 'Payment Successful', 'Thansk you for shopping with us.');
+            if (currentuser) {
+              this.balance = currentuser.balance;
+            }
+            let data = {
+              "Id": -1,
+              "UserId": currentuser.id,
+              "Amount": this.cartAmuont,
+              "NoOfItems": 3
+            }
+            this.cartService.checkOutCart(data).subscribe(res => {
+              this.cartAmuont = 0;
+              setTimeout(() => {
+                this.route.navigate(['/shopping'])
+              }, 4000);
+            });
+          }
+          else {
+            this.toastr.pop('error', 'Payment failed', 'Not a valid user.');
+            this.loading = false;
+          }
         });
+
       });
     });
   }
@@ -133,8 +143,8 @@ export class FaceTesterComponent implements OnInit {
   handleImage(webcamImage: WebcamImage) {
     this.webcamImage = webcamImage;
     var blob = this.dataURItoBlob(this.webcamImage.imageAsDataUrl);
-    this.userService.uploadImage(blob).pipe().subscribe(imageId => {
-      this.webcamImageUrl = imageId;
+    this.userService.uploadImage(blob).pipe().subscribe((imageId: string) => {
+      this.imageUrl = imageId;
       console.log(imageId);
     });
   }
@@ -163,9 +173,25 @@ export class FaceTesterComponent implements OnInit {
     this.audioblob = audio;
     let currentuser = JSON.parse(localStorage.getItem('currentUser'));
     if (currentuser) {
-      this.userService.authenticateVoice(this.audioblob, currentuser.id).subscribe(voiceId => {
-        console.log(voiceId);
+      this.userService.authenticateVoice(this.audioblob, currentuser.id).subscribe((voiceId: boolean) => {
+        this.isVoiceAuthenticated = voiceId;
+        if (!this.isVoiceAuthenticated) {
+          this.toastr.pop('error', 'Invalid Voice', 'Voice not authenticated');
+        }
       });
     }
+  }
+
+  isIdentifyButtonDisable(): boolean {
+    if (!this.selectedGroupId || (this.imageUrl && !this.imageUrl.length)) {
+      return true;
+    }
+    else if (this.selectedGroupId && !this.imageUrl) {
+      return true;
+    }
+    // else if (this.selectedGroupId && this.imageUrl && !this.audioblob) {
+    //   return true;
+    // }
+    return false;
   }
 }
