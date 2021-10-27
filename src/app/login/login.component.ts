@@ -10,7 +10,6 @@ import {TextVoiceConverterService } from '../services/text-voice-converter.servi
 import { User } from '../models/user';
 
 
-
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
@@ -29,7 +28,7 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private authenticationService: AuthenticationService,
         private userServce: UserService,
-        private textVoiceConServ: TextVoiceConverterService,
+        private textVoiceConServ: TextVoiceConverterService
        // private alertService: AlertService
     ) {
         // redirect to home if already logged in
@@ -99,7 +98,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('currentUser', JSON.stringify(userInfo));
               this.authenticationService.currentUserSubject.next(userInfo);
                 this.textVoiceConServ.start('Logged into FRP system.');
-                  this.router.navigate(['home']);
+                 // this.router.navigate(['home']);
                   this.loading = false;
               },
               error => {

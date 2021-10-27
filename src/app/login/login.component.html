@@ -38,6 +38,7 @@
     </div>
 </form> -->
 
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
 <section class=" container">
