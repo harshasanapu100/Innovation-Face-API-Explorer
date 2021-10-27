@@ -95,6 +95,11 @@ export class FaceTesterComponent implements OnInit {
           obsList.push(this.faceApi.getPerson(this.selectedGroupId, identifiedFace.candidates[0].personId));
         }
         else {
+          this.textVoiceCon.start(`Payment has been failed due to face authentication`);
+          
+          if (!this.isVoiceAuthenticated) {
+            this.textVoiceCon.start(`Payment has been failed due to voice authentication`);
+          }
           this.toastr.pop('error', 'Payment failed', 'Not a valid user.');
           this.loading = false;
         }
@@ -107,6 +112,7 @@ export class FaceTesterComponent implements OnInit {
         this.userService.authenticateFace(currentuser.id, this.identifiedPersons[0]).subscribe(res => {
           if (res && this.isVoiceAuthenticated) {
             this.loading = false;
+            this.textVoiceCon.start(`Your order has been Successful placed`);
             this.toastr.pop('success', 'Payment Successful', 'Thansk you for shopping with us.');
             if (currentuser) {
               this.balance = currentuser.balance;
@@ -125,6 +131,14 @@ export class FaceTesterComponent implements OnInit {
             });
           }
           else {
+            if (!res) {
+              this.textVoiceCon.start(`Payment has been failed due to face authentication`);
+            }
+
+            if (!this.isVoiceAuthenticated) {
+              this.textVoiceCon.start(`Payment has been failed due to voice authentication`);
+            }
+
             this.toastr.pop('error', 'Payment failed', 'Not a valid user.');
             this.loading = false;
           }
@@ -176,10 +190,7 @@ export class FaceTesterComponent implements OnInit {
     if (currentuser) {
       this.userService.authenticateVoice(this.audioblob, currentuser.id).subscribe((voiceId: boolean) => {
         this.isVoiceAuthenticated = voiceId;
-        this.isVoiceChecked = true;
-        // if (!this.isVoiceAuthenticated) {
-        //   this.toastr.pop('error', 'Invalid Voice', 'Voice not authenticated');
-        // }
+        this.isVoiceChecked = true;       
       });
     }
   }
