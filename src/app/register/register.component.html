@@ -119,7 +119,7 @@
                             <div class="col-md-12 mb-4">
                                 <div class="form-outline">
                                     <label for="dpText">Capture Voice</label>        
-                                    <app-audio (getAudio)="handleAudio($event)"></app-audio>  
+                                    <app-audio [isDisabled]="false" (getAudio)="handleAudio($event)"></app-audio>  
                                 </div>
         
                             </div>

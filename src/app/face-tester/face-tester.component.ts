@@ -34,6 +34,7 @@ export class FaceTesterComponent implements OnInit {
   webcamImageUrl: any;
   audioblob: any;
   isVoiceAuthenticated: boolean = false;
+  isVoiceChecked: boolean = false;
 
   constructor(private faceApi: FaceApiService, private toastr: ToasterService,
     private sharedService: SharedService,
@@ -175,23 +176,21 @@ export class FaceTesterComponent implements OnInit {
     if (currentuser) {
       this.userService.authenticateVoice(this.audioblob, currentuser.id).subscribe((voiceId: boolean) => {
         this.isVoiceAuthenticated = voiceId;
-        if (!this.isVoiceAuthenticated) {
-          this.toastr.pop('error', 'Invalid Voice', 'Voice not authenticated');
-        }
+        this.isVoiceChecked = true;
+        // if (!this.isVoiceAuthenticated) {
+        //   this.toastr.pop('error', 'Invalid Voice', 'Voice not authenticated');
+        // }
       });
     }
   }
 
   isIdentifyButtonDisable(): boolean {
-    if (!this.selectedGroupId || (this.imageUrl && !this.imageUrl.length)) {
+    if (!this.selectedGroupId || (this.imageUrl && !this.imageUrl.length) || !this.isVoiceChecked) {
       return true;
     }
-    else if (this.selectedGroupId && !this.imageUrl) {
+    else if (this.selectedGroupId && !this.imageUrl || !this.isVoiceChecked) {
       return true;
     }
-    // else if (this.selectedGroupId && this.imageUrl && !this.audioblob) {
-    //   return true;
-    // }
     return false;
   }
 }

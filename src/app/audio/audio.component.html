@@ -1,10 +1,11 @@
 <div>
-  <button type="button" class="btn btn-success" *ngIf="!isAudioRecording" (click)="startAudioRecording()">Start Audio
+  <button type="button" class="btn btn-success" *ngIf="!isAudioRecording" (click)="startAudioRecording()"
+    [disabled]="isDisabled">Start Audio
     Recording</button>
   <button type="button" class="btn btn-success" *ngIf="isAudioRecording && !audioBlobUrl"
     (click)="stopAudioRecording()">Stop Audio Recording</button>
   <div id="audioTimer" *ngIf="isAudioRecording"> {{ audioRecordedTime }} </div>
-  <br>  
+  <br>
   <br>
   <div>
     <audio *ngIf="!isAudioRecording && audioBlobUrl" controls>

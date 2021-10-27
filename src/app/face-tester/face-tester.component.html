@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dpText" style="color: white;">Capture Voice</label>
-                        <app-audio (getAudio)="handleAudio($event)"></app-audio>
+                        <app-audio [isDisabled]="!(imageUrl && imageUrl.length)" (getAudio)="handleAudio($event)"></app-audio>
                     </div>
                     <button class="btn btn-warning mr-sm-2" [disabled]="isIdentifyButtonDisable()"
                         (click)="detect()">Detect</button>

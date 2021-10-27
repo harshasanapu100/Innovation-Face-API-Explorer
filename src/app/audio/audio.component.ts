@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AudioRecordingService } from '../services/audio-recording.service';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -13,7 +13,7 @@ import { environment } from './../../environments/environment';
 })
 export class AudioComponent implements OnDestroy, OnInit {
   @Output() getAudio = new EventEmitter<any>();
-
+  @Input() isDisabled:any;
   baseURL: string = environment.baseURL;
   displayControls = true;
   isAudioRecording = false;
